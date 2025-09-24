@@ -1,13 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MySql.Data.MySqlClient;
+
 
 namespace SistemaEstoque
 {
     public static class Banco
     {
+        public static string ConnectionString = "Server=localhost;Database=bd_sistema_estoque;Uid=admin;Pwd=123";
         public static List<Produto> Produtos { get; } = new List<Produto>();
+
+        public static MySqlConnection GetConnection()
+        {
+            return new MySqlConnection(ConnectionString);
+        }
     }
-}
+
+
+    }

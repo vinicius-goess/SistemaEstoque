@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.ComponentModel;
+using SistemaEstoque;
 
 namespace SistemaEstoque
 {
@@ -17,36 +18,29 @@ namespace SistemaEstoque
         public FormListagem()
         {
             InitializeComponent();
-            MontarGrid();
             AtualizarGrid();
-        }
-        private void MontarGrid()
-        {
-            dgvProdutos.AutoGenerateColumns = false;
-            dgvProdutos.Columns.Clear();
-            dgvProdutos.Columns.Add(new DataGridViewTextBoxColumn { Name = "Nome", HeaderText = "Nome", DataPropertyName = "Nome", AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill });
-            dgvProdutos.Columns.Add(new DataGridViewTextBoxColumn { Name = "Quantidade", HeaderText = "Quantidade", DataPropertyName = "Quantidade" });
-            dgvProdutos.Columns.Add(new DataGridViewTextBoxColumn { Name = "Preco", HeaderText = "Preço", DataPropertyName = "Preco", DefaultCellStyle = { Format = "C2" } });
-            dgvProdutos.Columns.Add(new DataGridViewTextBoxColumn { Name = "Categoria", HeaderText = "Categoria", DataPropertyName = "Categoria" });
         }
 
         private void AtualizarGrid()
         {
-            bs.DataSource = Banco.Produtos;
-            dgvProdutos.DataSource = bs;
-            dgvProdutos.Refresh();
+            ProdutoDAO dao = new ProdutoDAO();
+            dgvProdutos.DataSource = dao.ObterTodos();
         }
 
         private Produto GetSelecionado()
         {
-            if (dgvProdutos.CurrentRow == null) return null;
-            return dgvProdutos.CurrentRow.DataBoundItem as Produto;
+            if (dgvProdutos.SelectedRows.Count > 0)
+            {
+                return dgvProdutos.SelectedRows[0].DataBoundItem as Produto;
+            }
+            return null;
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
             var p = GetSelecionado();
             if (p == null) { MessageBox.Show("Selecione um produto."); return; }
+
             using (var f = new FormCadastro(p))
             {
                 f.ShowDialog();
@@ -58,16 +52,16 @@ namespace SistemaEstoque
         {
             var p = GetSelecionado();
             if (p == null) { MessageBox.Show("Selecione um produto."); return; }
-            if (MessageBox.Show($"Excluir {p.Nome}?", "Confirma", MessageBoxButtons.YesNo) == DialogResult.Yes)
+
+            if (MessageBox.Show($"Tem certeza que deseja excluir {p.Nome}?", "Confirmação", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
-                Banco.Produtos.Remove(p);
+                ProdutoDAO dao = new ProdutoDAO();
+                dao.Excluir(p.IdProduto);
                 AtualizarGrid();
             }
         }
 
-        private void btnAtualizar_Click(object sender, EventArgs e)
-        {
-            AtualizarGrid();
-        }
+        private void btnAtualizar_Click(object sender, EventArgs e) { AtualizarGrid(); }
     }
 }
+

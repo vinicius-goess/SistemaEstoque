@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SistemaEstoque;
 
 namespace SistemaEstoque
 {
@@ -30,6 +31,7 @@ namespace SistemaEstoque
             cmbCategoria.Items.Clear();
             cmbCategoria.Items.AddRange(new string[] { "Alimentos", "Bebidas", "Higiene", "Eletrônicos", "Outros" });
             cmbCategoria.SelectedIndex = 0;
+
         }
 
         private void CarregarProduto()
@@ -37,7 +39,7 @@ namespace SistemaEstoque
             if (produtoEditando == null) return;
             txtNome.Text = produtoEditando.Nome;
             nudQuantidade.Value = produtoEditando.Quantidade;
-            txtPreco.Text = produtoEditando.Preco.ToString("F2");
+            txtPreco.Text = produtoEditando.PrecoVenda.ToString("F2");
             cmbCategoria.SelectedItem = produtoEditando.Categoria;
         }
 
@@ -60,10 +62,11 @@ namespace SistemaEstoque
                 {
                     Nome = txtNome.Text.Trim(),
                     Quantidade = (int)nudQuantidade.Value,
-                    Preco = preco,
+                    PrecoVenda = preco,
                     Categoria = cmbCategoria.SelectedItem.ToString()
                 };
-                Banco.Produtos.Add(p);
+                var conexao = new ConexaoMySQL();
+                conexao.InserirProduto(p);
                 MessageBox.Show("Produto salvo com sucesso.");
                 LimparCampos();
             }
@@ -71,7 +74,7 @@ namespace SistemaEstoque
             {
                 produtoEditando.Nome = txtNome.Text.Trim();
                 produtoEditando.Quantidade = (int)nudQuantidade.Value;
-                produtoEditando.Preco = preco;
+                produtoEditando.PrecoVenda = preco;
                 produtoEditando.Categoria = cmbCategoria.SelectedItem.ToString();
                 MessageBox.Show("Produto atualizado.");
                 this.Close();
