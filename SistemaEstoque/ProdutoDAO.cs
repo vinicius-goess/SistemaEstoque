@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-//using MySqlConnector;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
+//using MySql.Data.MySqlClient;
 
 
 namespace SistemaEstoque
@@ -10,7 +10,7 @@ namespace SistemaEstoque
     {
         public void Inserir(Produto p, int idCategoria)
         {
-            using (var conn = ConexaoMySQL.GetConnection())
+            using (var conn = Banco.GetConnection())
             {
                 conn.Open();
                 string sql = @"INSERT INTO produto (nome_produto, quantidade, preco_venda, estoque_minimo, fk_categoria_idcategoria)
@@ -28,7 +28,7 @@ namespace SistemaEstoque
         public List<Produto> ObterTodos()
         {
             var lista = new List<Produto>();
-            using (var conn = ConexaoMySQL.GetConnection())
+            using (var conn = Banco.GetConnection())
             {
                 conn.Open();
                 string sql = @"SELECT p.idproduto, p.nome_produto, p.quantidade, p.preco_venda, c.nome as categoria_nome 
@@ -55,7 +55,7 @@ namespace SistemaEstoque
 
         public void Atualizar(Produto p, int idCategoria)
         {
-            using (var conn = ConexaoMySQL.GetConnection())
+            using (var conn = Banco.GetConnection())
             {
                 conn.Open();
                 string sql = @"UPDATE produto SET nome_produto=@nome, quantidade=@qtd, 
@@ -72,7 +72,7 @@ namespace SistemaEstoque
 
         public void Excluir(int id)
         {
-            using (var conn = ConexaoMySQL.GetConnection())
+            using (var conn = Banco.GetConnection())
             {
                 conn.Open();
                 // Primeiro, exclua movimentações relacionadas para evitar erro de chave estrangeira

@@ -7,8 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-//using MySqlConnector;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
+//using MySql.Data.MySqlClient;
 
 
 namespace SistemaEstoque
@@ -24,7 +24,7 @@ namespace SistemaEstoque
         {
             try
             {
-                using (var conn = ConexaoMySQL.GetConnection())
+                using (var conn = Banco.GetConnection())
                 {
                     conn.Open();
                     string sql = "SELECT COUNT(*) FROM usuario WHERE login=@login AND senha=@senha";

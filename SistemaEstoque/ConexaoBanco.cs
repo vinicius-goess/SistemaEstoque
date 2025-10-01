@@ -2,11 +2,12 @@
 using System;
 
 
+
 namespace SistemaEstoque
 {
     public class ConexaoMySQL
     {
-        private static string connStr = "Server=localhost;Database=bd_sistema_estoque;Uid=admin;Pwd=123;";
+        private static string connStr = "Server=localhost;Database=bd_sistema_estoque;Uid=admin;Pwd=123";
         public static MySqlConnection GetConnection()
         {
             return new MySqlConnection(connStr);
@@ -42,7 +43,7 @@ namespace SistemaEstoque
                 cmd.Parameters.AddWithValue("@estoqueMinimo", p.EstoqueMinimo);
 
                 conexao.Open();
-                cmd.ExecuteNonQuery();
+                int v = cmd.ExecuteNonQuery();
             }
         }
     }

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-//using MySqlConnector;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
+//using MySql.Data.MySqlClient;
 
 namespace SistemaEstoque
 {
@@ -13,7 +13,7 @@ namespace SistemaEstoque
         public List<string> ObterCategorias()
         {
             var lista = new List<string>();
-            using (var conn = ConexaoMySQL.GetConnection())
+            using (var conn = Banco.GetConnection())
             {
                 conn.Open();
                 string sql = "SELECT nome FROM categoria ORDER BY nome";

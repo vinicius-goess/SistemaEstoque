@@ -152,6 +152,7 @@
     <Compile Include="FormSaida.Designer.cs">
       <DependentUpon>FormSaida.cs</DependentUpon>
     </Compile>
+    <Compile Include="Movimentacao.cs" />
     <Compile Include="Produto.cs" />
     <Compile Include="ProdutoDAO.cs" />
     <Compile Include="Program.cs" />

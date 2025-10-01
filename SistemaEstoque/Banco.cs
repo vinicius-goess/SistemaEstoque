@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using MySql.Data.MySqlClient;
+//using MySql.Data.MySqlClient;
+using MySqlConnector;
+
 
 
 namespace SistemaEstoque
