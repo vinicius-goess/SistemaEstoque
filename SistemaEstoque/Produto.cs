@@ -10,5 +10,8 @@
         public decimal PrecoVenda { get; set; }
         public int EstoqueMinimo { get; set; }
         public string Categoria { get; set; }
+        public int idCategoria { get; set; }
+
+
     }
 }
