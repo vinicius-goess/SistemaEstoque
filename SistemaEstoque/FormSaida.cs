@@ -22,9 +22,10 @@ namespace SistemaEstoque
 
         private void CarregarProdutos()
         {
-            cmbProduto.DataSource = null;
-            cmbProduto.DataSource = Banco.Produtos;
-            cmbProduto.DisplayMember = "Nome";
+            ProdutoDAO dao = new ProdutoDAO();
+            cmbProduto.DataSource = dao.ObterTodos();
+            cmbProduto.DisplayMember = "Nome"; // O que o usuário vê
+            cmbProduto.ValueMember = "ID";   // O valor por trás
         }
 
         private void btnConfirmar_Click(object sender, EventArgs e)

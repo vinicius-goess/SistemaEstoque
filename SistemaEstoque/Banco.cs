@@ -10,7 +10,7 @@ namespace SistemaEstoque
     public static class Banco
     {
         public static string ConnectionString = "Server=localhost;Database=bd_sistema_estoque;Uid=admin;Pwd=123";
-        public static List<Produto> Produtos { get; } = new List<Produto>();
+        //public static List<Produto> Produtos { get; } = new List<Produto>();
 
         public static MySqlConnection GetConnection()
         {

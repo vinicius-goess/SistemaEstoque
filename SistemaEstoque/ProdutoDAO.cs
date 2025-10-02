@@ -19,7 +19,7 @@ namespace SistemaEstoque
                 cmd.Parameters.AddWithValue("@nome", p.Nome);
                 cmd.Parameters.AddWithValue("@qtd", p.Quantidade);
                 cmd.Parameters.AddWithValue("@venda", p.PrecoVenda);
-                cmd.Parameters.AddWithValue("@min", 1); // Estoque mínimo padrão
+                cmd.Parameters.AddWithValue("@min", 2); // Estoque mínimo padrão
                 cmd.Parameters.AddWithValue("@cat", idCategoria);
                 cmd.ExecuteNonQuery();
             }
