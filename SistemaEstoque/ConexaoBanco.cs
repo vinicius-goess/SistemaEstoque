@@ -42,6 +42,7 @@ namespace SistemaEstoque
                 cmd.Parameters.AddWithValue("@precoCusto", p.PrecoCusto);
                 cmd.Parameters.AddWithValue("@precoVenda", p.PrecoVenda);
                 cmd.Parameters.AddWithValue("@estoqueMinimo", p.EstoqueMinimo);
+                cmd.Parameters.AddWithValue("@idCategoria", p.EstoqueMinimo);
 
                 conexao.Open();
                 int v = cmd.ExecuteNonQuery();
