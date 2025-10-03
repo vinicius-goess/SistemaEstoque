@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿// FormCadastro.cs
+using System;
 using System.Windows.Forms;
-using SistemaEstoque;
-using MySqlConnector;
-
 
 namespace SistemaEstoque
 {
     public partial class FormCadastro : Form
     {
         private Produto produtoEditando;
+
         public FormCadastro()
         {
             InitializeComponent();
@@ -28,23 +20,51 @@ namespace SistemaEstoque
             CarregarProduto();
         }
 
+        // MÉTODO CORRIGIDO
         private void PreencherCategorias()
         {
-            cmbCategoria.Items.Clear();
-            cmbCategoria.Items.AddRange(new string[] { "Alimentos", "Bebidas", "Higiene", "Eletrônicos", "Outros" });
-            cmbCategoria.SelectedIndex = 0;
+            // 1. Instancia o DAO para buscar categorias
+            var categoriaDAO = new CategoriaDAO();
 
+            // 2. Chama o método que busca as categorias do banco
+            var categorias = categoriaDAO.ObterCategorias();
+
+            // 3. Limpa o ComboBox
+            cmbCategoria.Items.Clear();
+
+            // 4. Adiciona as categorias (objetos) ao ComboBox
+            foreach (var cat in categorias)
+            {
+                cmbCategoria.Items.Add(cat);
+            }
+
+            // Opcional: seleciona o primeiro item se a lista não estiver vazia
+            if (cmbCategoria.Items.Count > 0)
+            {
+                cmbCategoria.SelectedIndex = 0;
+            }
         }
 
         private void CarregarProduto()
         {
+            // Este método também precisará de ajuste se você for editar
+            // Mas para o cadastro, o foco é o PreencherCategorias e o btnSalvar_Click
             if (produtoEditando == null) return;
             txtNome.Text = produtoEditando.Nome;
             nudQuantidade.Value = produtoEditando.Quantidade;
             txtPreco.Text = produtoEditando.PrecoVenda.ToString("F2");
-            cmbCategoria.SelectedItem = produtoEditando.Categoria;
+            // Lógica para selecionar a categoria correta ao editar
+            foreach (Categoria item in cmbCategoria.Items)
+            {
+                if (item.Nome == produtoEditando.Categoria)
+                {
+                    cmbCategoria.SelectedItem = item;
+                    break;
+                }
+            }
         }
 
+        // MÉTODO CORRIGIDO
         private void btnSalvar_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtNome.Text))
@@ -58,6 +78,15 @@ namespace SistemaEstoque
                 return;
             }
 
+            // Pega o objeto Categoria inteiro que foi selecionado
+            Categoria categoriaSelecionada = cmbCategoria.SelectedItem as Categoria;
+
+            if (categoriaSelecionada == null)
+            {
+                MessageBox.Show("Selecione uma categoria válida.");
+                return;
+            }
+
             if (produtoEditando == null)
             {
                 var p = new Produto
@@ -65,7 +94,8 @@ namespace SistemaEstoque
                     Nome = txtNome.Text.Trim(),
                     Quantidade = (int)nudQuantidade.Value,
                     PrecoVenda = preco,
-                    Categoria = cmbCategoria.SelectedItem.ToString()
+                    // Atribui o ID da categoria selecionada!
+                    idCategoria = categoriaSelecionada.IdCategoria
                 };
                 var conexao = new ConexaoMySQL();
                 conexao.InserirProduto(p);
@@ -74,20 +104,27 @@ namespace SistemaEstoque
             }
             else
             {
+                // Lógica para ATUALIZAR (também precisa do ID da categoria)
                 produtoEditando.Nome = txtNome.Text.Trim();
                 produtoEditando.Quantidade = (int)nudQuantidade.Value;
                 produtoEditando.PrecoVenda = preco;
-                produtoEditando.Categoria = cmbCategoria.SelectedItem.ToString();
+                produtoEditando.idCategoria = categoriaSelecionada.IdCategoria;
+
+                // Você precisará chamar um método de ATUALIZAÇÃO aqui
+                // Ex: var dao = new ProdutoDAO(); dao.Atualizar(produtoEditando);
+
                 MessageBox.Show("Produto atualizado.");
                 this.Close();
             }
         }
+
         private void LimparCampos()
         {
             txtNome.Clear();
             nudQuantidade.Value = 0;
             txtPreco.Clear();
-            cmbCategoria.SelectedIndex = 0;
+            if (cmbCategoria.Items.Count > 0)
+                cmbCategoria.SelectedIndex = 0;
         }
 
         private void btnLimpar_Click(object sender, EventArgs e)
@@ -95,5 +132,4 @@ namespace SistemaEstoque
             LimparCampos();
         }
     }
-    }
-
+}

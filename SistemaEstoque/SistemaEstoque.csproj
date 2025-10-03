@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Banco.cs" />
+    <Compile Include="Categoria.cs" />
     <Compile Include="CategoriaDAO.cs" />
     <Compile Include="ConexaoBanco.cs" />
     <Compile Include="Form1.cs">

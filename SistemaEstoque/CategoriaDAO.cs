@@ -1,28 +1,29 @@
-﻿using System;
+﻿// CategoriaDAO.cs
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MySqlConnector;
-//using MySql.Data.MySqlClient;
 
 namespace SistemaEstoque
 {
     public class CategoriaDAO
     {
-        public List<string> ObterCategorias()
+        public List<Categoria> ObterCategorias() 
         {
-            var lista = new List<string>();
+            var lista = new List<Categoria>();
             using (var conn = Banco.GetConnection())
             {
                 conn.Open();
-                string sql = "SELECT nome FROM categoria ORDER BY nome";
+                string sql = "SELECT idcategoria, nome FROM categoria ORDER BY nome";
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 using (var reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
                     {
-                        lista.Add(reader.GetString("nome"));
+                        // Adiciona um objeto Categoria completo à lista
+                        lista.Add(new Categoria
+                        {
+                            IdCategoria = reader.GetInt32("idcategoria"),
+                            Nome = reader.GetString("nome")
+                        });
                     }
                 }
             }

@@ -63,6 +63,11 @@ namespace SistemaEstoque
         }
 
         private void btnAtualizar_Click(object sender, EventArgs e) { AtualizarGrid(); }
+
+        private void btnFechar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
 

@@ -75,7 +75,7 @@ namespace SistemaEstoque
             // btnEntrar
             // 
             this.btnEntrar.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnEntrar.Location = new System.Drawing.Point(43, 292);
+            this.btnEntrar.Location = new System.Drawing.Point(27, 207);
             this.btnEntrar.Name = "btnEntrar";
             this.btnEntrar.Size = new System.Drawing.Size(132, 84);
             this.btnEntrar.TabIndex = 4;
@@ -86,7 +86,7 @@ namespace SistemaEstoque
             // btnSair
             // 
             this.btnSair.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnSair.Location = new System.Drawing.Point(256, 292);
+            this.btnSair.Location = new System.Drawing.Point(180, 207);
             this.btnSair.Name = "btnSair";
             this.btnSair.Size = new System.Drawing.Size(132, 84);
             this.btnSair.TabIndex = 5;
@@ -98,7 +98,7 @@ namespace SistemaEstoque
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(488, 450);
+            this.ClientSize = new System.Drawing.Size(408, 328);
             this.Controls.Add(this.btnSair);
             this.Controls.Add(this.btnEntrar);
             this.Controls.Add(this.txtSenha);
